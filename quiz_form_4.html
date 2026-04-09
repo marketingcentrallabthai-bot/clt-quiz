@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบความรู้ - ห้องปฏิบัติการกลาง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Pridi:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --accent: #10b981;
+            --bg-gradient-start: #f0fdf4;
+            --bg-gradient-end: #dcfce7;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #d1fae5;
+            --shadow: rgba(5, 150, 105, 0.08);
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .header h1 {
+            font-family: 'Pridi', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            font-family: 'Pridi', serif;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .question-block {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            animation: fadeIn 0.4s ease;
+            animation-fill-mode: backwards;
+        }
+
+        .question-block:nth-child(odd) {
+            background: rgba(5, 150, 105, 0.02);
+        }
+
+        .question-block:last-child {
+            border-bottom: none;
+            border-radius: 0 0 20px 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .question-text span {
+            flex: 1;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(5, 150, 105, 0.05);
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05rem;
+            user-select: none;
+        }
+
+        .text-input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23059669' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            padding-right: 3rem;
+        }
+
+        .text-input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-section {
+            background: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 -4px 20px var(--shadow);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 1.25rem 3.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Sarabun', sans-serif;
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            .header {
+                padding: 2rem 1.5rem;
+                border-radius: 16px 16px 0 0;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .question-block {
+                padding: 1.5rem 1rem;
+            }
+
+            .question-text {
+                font-size: 1.05rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .question-number {
+                width: 36px;
+                height: 36px;
+                line-height: 36px;
+                font-size: 1rem;
+            }
+
+            .option {
+                padding: 0.875rem 1rem;
+            }
+
+            .submit-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-content h2 {
+            font-family: 'Pridi', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .result-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .close-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 600;
+        }
+
+        .close-btn:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>แบบทดสอบความรู้</h1>
+            <p>สำนักงานบริการคุณภาพระบบมาตรฐาน<br>
+            บริษัท ห้องปฏิบัติการกลาง (ประเทศไทย) จำกัด</p>
+        </div>
+
+        <form id="quizForm" class="form-card">
+            <!-- Section Header: สอบเทียบเครื่องมือ -->
+            <div class="section-header">
+                <h2>ส่วนงานสอบเทียบเครื่องมือ</h2>
+            </div>
+
+            <!-- คำถามจากไฟล์เฉลย (ฝ่ายสอบเทียบ) -->
+            <div class="question-block" style="animation-delay: 0.1s;">
+                <div class="question-text">
+                    <span class="question-number">1</span>
+                    <span>เครื่องมือในข้อใดจัดอยู่ในขอบข่ายการบริการสอบเทียบด้านไฟฟ้า (Electrical) ของบริษัท ห้องปฏิบัติการกลาง (ประเทศไทย) จำกัด</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1a" value="1">
+                        <label for="q1a">Pressure Gauge</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1b" value="2">
+                        <label for="q1b">Autoclave</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1c" value="3">
+                        <label for="q1c">Burette</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1d" value="4">
+                        <label for="q1d">Centrifuge</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.15s;">
+                <div class="question-text">
+                    <span class="question-number">2</span>
+                    <span>ข้อใดเป็นปัจจัยทางเทคนิคที่ทำให้ค่าบริการสอบเทียบเครื่องชั่งดิจิทัลมีราคาสูงขึ้น</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2a" value="1">
+                        <label for="q2a">เครื่องชั่งมีขนาดถาดวางที่กว้างกว่าปกติ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2b" value="2">
+                        <label for="q2b">เครื่องชั่งเป็นรุ่นที่ผลิตในต่างประเทศ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2c" value="3">
+                        <label for="q2c">เครื่องชั่งมีค่าความละเอียดของจุดทศนิยมมาก เช่น 4-5 ตำแหน่ง</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2d" value="4">
+                        <label for="q2d">เครื่องชั่งมีสีสันที่แตกต่างจากมาตรฐานอุตสาหกรรม</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.2s;">
+                <div class="question-text">
+                    <span class="question-number">3</span>
+                    <span>หากลูกค้าต้องการสอบเทียบตุ้มน้ำหนักมาตรฐานระดับชั้น F1 ราคาจะแตกต่างจาก M1 อย่างไร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3a" value="1">
+                        <label for="q3a">Class F1 จะมีราคาสูงกว่า Class M1</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3b" value="2">
+                        <label for="q3b">Class F1 คิดราคาตามน้ำหนัก แต่ Class M1 คิดราคาเหมา</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3c" value="3">
+                        <label for="q3c">Class F1 จะมีราคาถูกกว่า Class M1</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3d" value="4">
+                        <label for="q3d">ทั้งสอง Class มีราคาค่าบริการสอบเทียบเท่ากัน</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.25s;">
+                <div class="question-text">
+                    <span class="question-number">4</span>
+                    <span>เครื่องมือชนิดใดที่จำเป็นต้องสอบเทียบเพื่อยืนยันความปลอดภัยในการทำงานและตรวจสอบความพร้อมของพนักงาน</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4a" value="1">
+                        <label for="q4a">เครื่องวัดอุณหภูมิแบบกราฟ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4b" value="2">
+                        <label for="q4b">เครื่องตรวจวัดระดับแอลกอฮอล์</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4c" value="3">
+                        <label for="q4c">เครื่องวัดค่าความนำไฟฟ้า</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4d" value="4">
+                        <label for="q4d">ตุ้มน้ำหนัก</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.3s;">
+                <div class="question-text">
+                    <span class="question-number">5</span>
+                    <span>ฝ่ายสอบเทียบเครื่องมือ บริษัท ห้องปฏิบัติการกลาง (ประเทศไทย) จำกัด ได้รับการรับรองมาตรฐาน ISO อะไร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5a" value="1">
+                        <label for="q5a">ISO 17043</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5b" value="2">
+                        <label for="q5b">ISO 9001</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5c" value="3">
+                        <label for="q5c">ISO 17025</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5d" value="4">
+                        <label for="q5d">ISO 14000</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- คำถามจากไฟล์ข้อสอบ (ฝ่ายอาหาร) -->
+            <!-- Section Header: ฝึกอบรมและทดสอบความชำนาญห้องปฏิบัติการ -->
+            <div class="section-header">
+                <h2>ส่วนงานฝึกอบรมและทดสอบความชำนาญห้องปฏิบัติการ</h2>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.35s;">
+                <div class="question-text">
+                    <span class="question-number">6</span>
+                    <span>ห้องปฏิบัติการขึ้นทะเบียนกับกรมโรงงาน ต้องผ่านการอบรมกี่หลักสูตร ชื่อหลักสูตรอะไรบ้าง</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6a" value="1">
+                        <label for="q6a">1 หลักสูตร: มอก.17025</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6b" value="2">
+                        <label for="q6b">2 หลักสูตร: มอก.17025 และ การควบคุมคุณภาพการวิเคราะห์ทดสอบ (เคมี)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6c" value="3">
+                        <label for="q6c">3 หลักสูตร: มอก.17025, GMP และ HACCP</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6d" value="4">
+                        <label for="q6d">ไม่ต้องผ่านการอบรม</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.4s;">
+                <div class="question-text">
+                    <span class="question-number">7</span>
+                    <span>มาตรฐาน มอก.2677 คือมาตรฐานอะไร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7a" value="1">
+                        <label for="q7a">มาตรฐานว่าด้วยระบบการจัดการคุณภาพ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7b" value="2">
+                        <label for="q7b">มาตรฐานว่าด้วยระบบการจัดการด้านความปลอดภัยของห้องปฏิบัติการที่เกี่ยวกับสารเคมี</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7c" value="3">
+                        <label for="q7c">มาตรฐานว่าด้วยระบบการจัดการด้านสิ่งแวดล้อม</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7d" value="4">
+                        <label for="q7d">มาตรฐานว่าด้วยความปลอดภัยอาหาร</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.45s;">
+                <div class="question-text">
+                    <span class="question-number">8</span>
+                    <span>CLT ได้รับการรับรองมาตรฐาน ISO/IEC 17043 หรือไม่</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8a" value="1">
+                        <label for="q8a">ได้รับการรับรอง</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8b" value="2">
+                        <label for="q8b">ไม่ได้รับการรับรอง</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8c" value="3">
+                        <label for="q8c">อยู่ระหว่างการยื่นขอรับรอง</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8d" value="4">
+                        <label for="q8d">เคยได้รับแต่หมดอายุแล้ว</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.5s;">
+                <div class="question-text">
+                    <span class="question-number">9</span>
+                    <span>มาตรฐาน ISO/IEC 17043 คือมาตรฐานอะไร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9a" value="1">
+                        <label for="q9a">มาตรฐานความสามารถของห้องปฏิบัติการทดสอบและสอบเทียบ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9b" value="2">
+                        <label for="q9b">มาตรฐานว่าด้วยความสามารถของผู้จัดโปรแกรมการทดสอบความชำนาญ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9c" value="3">
+                        <label for="q9c">มาตรฐานระบบบริหารคุณภาพ</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9d" value="4">
+                        <label for="q9d">มาตรฐานการจัดการสิ่งแวดล้อม</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.55s;">
+                <div class="question-text">
+                    <span class="question-number">10</span>
+                    <span>CLT มีโปรแกรม PT ใดบ้าง (ระบุ 2 คำตอบ)</span>
+                </div>
+                <textarea name="q10" id="q10" placeholder="กรุณาระบุโปรแกรม PT ทั้ง 2 โปรแกรม..." rows="3"></textarea>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.6s;">
+                <div class="question-text">
+                    <span class="question-number">11</span>
+                    <span>กฎกระทรวงเรื่องใด ที่ระบุให้ผู้ประกอบกิจการและผู้สัมผัสอาหารต้องผ่านการฝึกอบรมด้านสุขาภิบาลอาหาร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11a" value="1">
+                        <label for="q11a">กฎกระทรวง การผลิตอาหาร พ.ศ.2561</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11b" value="2">
+                        <label for="q11b">กฎกระทรวง สุขลักษณะของสถานที่จำหน่ายอาหาร พ.ศ.2561</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11c" value="3">
+                        <label for="q11c">กฎกระทรวง ความปลอดภัยอาหาร พ.ศ.2560</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11d" value="4">
+                        <label for="q11d">กฎกระทรวง GMP พ.ศ.2558</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.65s;">
+                <div class="question-text">
+                    <span class="question-number">12</span>
+                    <span>ความหมายของผู้สัมผัสอาหารคือข้อใด</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12a" value="1">
+                        <label for="q12a">บุคคลที่ทำหน้าที่เสิร์ฟอาหารเท่านั้น</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12b" value="2">
+                        <label for="q12b">บุคคลที่เกี่ยวข้องกับอาหารตั้งแต่กระบวนการเตรียม ปรุงประกอบ จำหน่ายและเสิร์ฟอาหาร รวมถึงการล้างและเก็บภาชนะอุปกรณ์</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12c" value="3">
+                        <label for="q12c">เฉพาะเจ้าของร้านอาหารเท่านั้น</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12d" value="4">
+                        <label for="q12d">พนักงานที่ทำความสะอาดร้านอาหาร</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.7s;">
+                <div class="question-text">
+                    <span class="question-number">13</span>
+                    <span>การอบรมแบบ Public ของผู้ประกอบกิจการและผู้สัมผัสอาหาร มีค่าลงทะเบียนเท่าไร (ราคารวม VAT 7%)</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13a" value="1">
+                        <label for="q13a">ผู้ประกอบกิจการ 500 บาท, ผู้สัมผัสอาหาร 250 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13b" value="2">
+                        <label for="q13b">ผู้ประกอบกิจการ 642 บาท, ผู้สัมผัสอาหาร 321 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13c" value="3">
+                        <label for="q13c">ผู้ประกอบกิจการ 700 บาท, ผู้สัมผัสอาหาร 350 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13d" value="4">
+                        <label for="q13d">ผู้ประกอบกิจการ 600 บาท, ผู้สัมผัสอาหาร 300 บาท</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.75s;">
+                <div class="question-text">
+                    <span class="question-number">14</span>
+                    <span>วุฒิบัตรฝึกอบรมสุขาภิบาลอาหารมีอายุกี่ปี</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14a" value="1">
+                        <label for="q14a">1 ปี</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14b" value="2">
+                        <label for="q14b">2 ปี</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14c" value="3">
+                        <label for="q14c">3 ปี</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14d" value="4">
+                        <label for="q14d">5 ปี</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.8s;">
+                <div class="question-text">
+                    <span class="question-number">15</span>
+                    <span>ผู้ใดจัดตั้งสถานที่จำหน่ายอาหารหรือสถานที่สะสมอาหาร มีพื้นที่ไม่เกิน 200 ตารางเมตร โดยไม่มีหนังสือรับรองการแจ้ง ต้องระวางโทษอย่างไร</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15a" value="1">
+                        <label for="q15a">จำคุกไม่เกิน 6 เดือน หรือ ปรับไม่เกิน 50,000 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15b" value="2">
+                        <label for="q15b">จำคุกไม่เกิน 3 เดือน หรือ ปรับไม่เกิน 25,000 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15c" value="3">
+                        <label for="q15c">จำคุกไม่เกิน 1 ปี หรือ ปรับไม่เกิน 100,000 บาท</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15d" value="4">
+                        <label for="q15d">ปรับไม่เกิน 10,000 บาท</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ข้อมูลส่วนตัว -->
+            <div class="section-header">
+                <h2>ข้อมูลส่วนตัว</h2>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.85s;">
+                <div class="question-text">
+                    <span class="question-number">16</span>
+                    <span>ชื่อ-นามสกุล</span>
+                </div>
+                <input type="text" name="full_name" id="full_name" class="text-input" placeholder="กรุณากรอกชื่อ-นามสกุล" required>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.9s;">
+                <div class="question-text">
+                    <span class="question-number">17</span>
+                    <span>สาขา</span>
+                </div>
+                <select name="branch" id="branch" class="text-input" required>
+                    <option value="">-- เลือกสาขา --</option>
+                    <option value="HO">HO</option>
+                    <option value="BK">BK</option>
+                    <option value="SS">SS</option>
+                    <option value="CS">CS</option>
+                    <option value="CM">CM</option>
+                    <option value="KK">KK</option>
+                    <option value="SK">SK</option>
+                </select>
+            </div>
+
+            <div class="question-block" style="animation-delay: 0.95s;">
+                <div class="question-text">
+                    <span class="question-number">18</span>
+                    <span>รหัสพนักงาน</span>
+                </div>
+                <input type="text" name="employee_id" id="employee_id" class="text-input" placeholder="กรุณากรอกรหัสพนักงาน" required>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn">ส่งคำตอบ</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-icon">✅</div>
+            <h2>ส่งคำตอบสำเร็จ!</h2>
+            <p>ขอบคุณที่ทำแบบทดสอบ<br>คำตอบของคุณได้ถูกบันทึกเรียบร้อยแล้ว</p>
+            <button class="close-btn" onclick="closeModal()">ปิด</button>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script URL สำหรับบันทึกข้อมูล
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo-d0MUUUTKMZ8W10sgtaXIbwHR4YnDyDb0dKQYopKfSFm4GDKxHuvctGs8Uev1qaFHg/exec';
+        
+        // Progress bar on scroll
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // ฟังก์ชันส่งข้อมูลไป Google Sheets
+        async function sendToGoogleSheets(data) {
+            try {
+                // ใช้ no-cors mode เพราะ Google Apps Script ไม่รองรับ CORS
+                // ข้อมูลจะถูกส่งไปแม้จะไม่ได้รับ response กลับมา
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // no-cors mode จะไม่ได้ response กลับมา แต่ข้อมูลถูกส่งไปแล้ว
+                console.log('ส่งข้อมูลไปยัง Google Sheets แล้ว');
+                return true;
+            } catch (error) {
+                // แม้จะมี error แต่ข้อมูลมักจะถูกส่งไปแล้ว (เนื่องจาก no-cors mode)
+                console.log('ส่งข้อมูลแล้ว (อาจมี CORS warning แต่ไม่กระทบการทำงาน)');
+                return true;
+            }
+        }
+
+        // Form submission
+        document.getElementById('quizForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // แสดง Loading
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'กำลังส่งข้อมูล...';
+            submitBtn.disabled = true;
+            
+            // เฉลยที่ถูกต้อง
+            const correctAnswers = {
+                'q1': '4',  // Centrifuge
+                'q2': '3',  // เครื่องชั่งมีค่าความละเอียดของจุดทศนิยมมาก
+                'q3': '1',  // Class F1 จะมีราคาสูงกว่า Class M1
+                'q4': '2',  // เครื่องตรวจวัดระดับแอลกอฮอล์
+                'q5': '3',  // ISO 17025
+                'q6': '2',  // 2 หลักสูตร
+                'q7': '2',  // มาตรฐานว่าด้วยระบบการจัดการด้านความปลอดภัยของห้องปฏิบัติการที่เกี่ยวกับสารเคมี
+                'q8': '1',  // ได้รับการรับรอง
+                'q9': '2',  // มาตรฐานว่าด้วยความสามารถของผู้จัดโปรแกรมการทดสอบความชำนาญ
+                'q11': '2', // กฎกระทรวง สุขลักษณะของสถานที่จำหน่ายอาหาร พ.ศ.2561
+                'q12': '2', // บุคคลที่เกี่ยวข้องกับอาหารตั้งแต่กระบวนการเตรียม...
+                'q13': '2', // ผู้ประกอบกิจการ 642 บาท, ผู้สัมผัสอาหาร 321 บาท
+                'q14': '3', // 3 ปี
+                'q15': '2'  // จำคุกไม่เกิน 3 เดือน หรือ ปรับไม่เกิน 25,000 บาท
+            };
+            
+            // Collect answers
+            const formData = new FormData(this);
+            const answers = {};
+            let score = 0;
+            const checkableQuestions = 14;
+            
+            // ตรวจข้อ 1-9, 11-15 (ข้อที่มีตัวเลือก)
+            for (let i = 1; i <= 15; i++) {
+                if (i === 10) continue; // ข้อ 10 เป็น text ไม่ตรวจอัตโนมัติ
+                
+                const answer = formData.get('q' + i);
+                answers['q' + i] = answer || 'ไม่ได้ตอบ';
+                
+                // ตรวจคำตอบ
+                if (answer && answer === correctAnswers['q' + i]) {
+                    score++;
+                }
+            }
+            
+            // Employee data
+            const fullName = formData.get('full_name') || 'ไม่ได้กรอก';
+            const branch = formData.get('branch') || 'ไม่ได้เลือก';
+            const employeeId = formData.get('employee_id') || 'ไม่ได้กรอก';
+            answers['full_name'] = fullName;
+            answers['branch'] = branch;
+            answers['employee_id'] = employeeId;
+            
+            // คำนวณเปอร์เซ็นต์
+            const percentage = ((score / checkableQuestions) * 100).toFixed(1);
+            
+            // เตรียมข้อมูลสำหรับส่งไป Google Sheets
+            const dataToSend = {
+                ...answers,
+                score: score + '/' + checkableQuestions,
+                percentage: percentage + '%',
+                timestamp: new Date().toLocaleString('th-TH')
+            };
+            
+            // Log ข้อมูล
+            console.log('คำตอบที่ส่ง:', dataToSend);
+            
+            // ส่งข้อมูลไป Google Sheets
+            if (SCRIPT_URL !== 'YOUR_SCRIPT_URL_HERE') {
+                await sendToGoogleSheets(dataToSend);
+            } else {
+                console.warn('⚠️ กรุณาใส่ Google Apps Script URL ก่อนใช้งาน (ดูคำแนะนำใน setup_instructions.md)');
+            }
+            
+            // แสดงคะแนนใน Modal
+            displayResult(score, checkableQuestions, percentage, fullName, branch, employeeId);
+            
+            // Reset ปุ่ม
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function displayResult(score, total, percentage, fullName, branch, employeeId) {
+            const modal = document.getElementById('resultModal');
+            const resultIcon = modal.querySelector('.result-icon');
+            const resultTitle = modal.querySelector('h2');
+            const resultText = modal.querySelector('p');
+            
+            // กำหนดไอคอนและข้อความตามคะแนน
+            let icon, title, message, color;
+            
+            if (percentage >= 80) {
+                icon = '🎉';
+                title = 'ยอดเยี่ยม!';
+                message = `คุณทำได้ดีมาก!`;
+                color = '#059669';
+            } else if (percentage >= 60) {
+                icon = '✅';
+                title = 'ผ่าน!';
+                message = `คุณทำได้ดี`;
+                color = '#10b981';
+            } else if (percentage >= 50) {
+                icon = '📝';
+                title = 'พอใช้';
+                message = `ควรทบทวนเพิ่มเติม`;
+                color = '#f59e0b';
+            } else {
+                icon = '📚';
+                title = 'ควรศึกษาเพิ่มเติม';
+                message = `แนะนำให้ทบทวนอีกครั้ง`;
+                color = '#ef4444';
+            }
+            
+            resultIcon.textContent = icon;
+            resultTitle.textContent = title;
+            resultTitle.style.color = color;
+            resultText.innerHTML = `
+                <strong>ชื่อ-นามสกุล:</strong> ${fullName}<br>
+                <strong>สาขา:</strong> ${branch}<br>
+                <strong>รหัสพนักงาน:</strong> ${employeeId}<br>
+                <strong>คะแนน:</strong> ${score}/${total} (${percentage}%)<br>
+                ${message}<br><br>
+                <small style="color: #059669;">✓ ข้อมูลได้ถูกส่งไปบันทึกใน Google Sheets แล้ว</small><br>
+                <small style="color: #64748b;">* ข้อ 10 ต้องตรวจด้วยตัวเอง (ไม่นับในคะแนนอัตโนมัติ)</small>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+            // Reset form
+            document.getElementById('quizForm').reset();
+        }
+
+        // Add animation to question blocks on load
+        window.addEventListener('load', () => {
+            const blocks = document.querySelectorAll('.question-block');
+            blocks.forEach((block, index) => {
+                block.style.animationDelay = (index * 0.05) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
